@@ -1,0 +1,77 @@
+create database ineu_partition
+use ineu_partition
+
+create table ineu_course(
+course_name varchar(50),
+course_id int,
+course_title varchar(60),
+course_desc varchar(60),
+launch_date date,
+course_fee int,
+course_mentor varchar(60),
+course_launch_year int)
+
+select * from ineu_course;
+
+insert into ineu_course values('machine learning', 101, 'ML', "This is ML course", '2019-09-09', 3540, 'Sudhanshu', 2019),
+('data science', 102, 'DS', "This is Data Science course", '2020-01-15', 4000, 'Rohan', 2020),
+('artificial intelligence', 103, 'AI', "This is AI course", '2021-06-23', 5000, 'Ankit', 2021),
+('deep learning', 104, 'DL', "This is Deep Learning course", '2018-11-30', 4500, 'Sneha', 2018),
+('computer vision', 105, 'CV', "This is Computer Vision course", '2019-03-12', 3800, 'Amit', 2019),
+('natural language processing', 106, 'NLP', "This is NLP course", '2020-08-05', 4700, 'Priya', 2020),
+('big data', 107, 'BD', "This is Big Data course", '2017-02-25', 5200, 'Rahul', 2017),
+('cloud computing', 108, 'CC', "This is Cloud Computing course", '2019-12-10', 4800, 'Ishita', 2019),
+('internet of things', 109, 'IoT', "This is IoT course", '2021-05-18', 3600, 'Arjun', 2021),
+('cyber security', 110, 'CS', "This is Cyber Security course", '2022-07-22', 5500, 'Nisha', 2022),
+('blockchain', 111, 'BC', "This is Blockchain course", '2018-09-14', 4300, 'Vikram', 2018),
+('robotics', 112, 'RB', "This is Robotics course", '2020-11-05', 4900, 'Kavya', 2020),
+('quantum computing', 113, 'QC', "This is Quantum Computing course", '2022-03-19', 5300, 'Meera', 2022),
+('virtual reality', 114, 'VR', "This is Virtual Reality course", '2019-01-28', 4100, 'Ravi', 2019),
+('augmented reality', 115, 'AR', "This is Augmented Reality course", '2021-10-15', 4600, 'Sanya', 2021),
+('autonomous systems', 116, 'AS', "This is Autonomous Systems course", '2017-08-31', 5100, 'Divya', 2017)
+
+DELETE FROM ineu_course
+WHERE COURSE_ID = 101
+
+
+CREATE TABLE ineu_course1 (
+    course_name VARCHAR(50),
+    course_id INT,
+    course_title VARCHAR(60),
+    course_desc VARCHAR(60),
+    launch_date DATE,
+    course_fee INT,
+    course_mentor VARCHAR(60),
+    course_launch_year INT
+)
+PARTITION BY RANGE (course_launch_year) (
+    PARTITION p0 VALUES LESS THAN (2019),
+    PARTITION p1 VALUES LESS THAN (2020),
+    PARTITION p2 VALUES LESS THAN (2021),
+    PARTITION p3 VALUES LESS THAN (2022),
+    PARTITION p4 VALUES LESS THAN MAXVALUE
+);
+
+insert into ineu_course1 values('machine learning', 101, 'ML', "This is ML course", '2019-09-09', 3540, 'Sudhanshu', 2019),
+('data science', 102, 'DS', "This is Data Science course", '2020-01-15', 4000, 'Rohan', 2020),
+('artificial intelligence', 103, 'AI', "This is AI course", '2021-06-23', 5000, 'Ankit', 2021),
+('deep learning', 104, 'DL', "This is Deep Learning course", '2018-11-30', 4500, 'Sneha', 2018),
+('computer vision', 105, 'CV', "This is Computer Vision course", '2019-03-12', 3800, 'Amit', 2019),
+('natural language processing', 106, 'NLP', "This is NLP course", '2020-08-05', 4700, 'Priya', 2020),
+('big data', 107, 'BD', "This is Big Data course", '2017-02-25', 5200, 'Rahul', 2017),
+('cloud computing', 108, 'CC', "This is Cloud Computing course", '2019-12-10', 4800, 'Ishita', 2019),
+('internet of things', 109, 'IoT', "This is IoT course", '2021-05-18', 3600, 'Arjun', 2021),
+('cyber security', 110, 'CS', "This is Cyber Security course", '2022-07-22', 5500, 'Nisha', 2022),
+('blockchain', 111, 'BC', "This is Blockchain course", '2018-09-14', 4300, 'Vikram', 2018),
+('robotics', 112, 'RB', "This is Robotics course", '2020-11-05', 4900, 'Kavya', 2020),
+('quantum computing', 113, 'QC', "This is Quantum Computing course", '2022-03-19', 5300, 'Meera', 2022),
+('virtual reality', 114, 'VR', "This is Virtual Reality course", '2019-01-28', 4100, 'Ravi', 2019),
+('augmented reality', 115, 'AR', "This is Augmented Reality course", '2021-10-15', 4600, 'Sanya', 2021),
+('autonomous systems', 116, 'AS', "This is Autonomous Systems course", '2017-08-31', 5100, 'Divya', 2017)
+
+select * from ineu_course1 where course_launch_year = 2020
+
+
+SELECT partition_name, table_name, table_rows 
+FROM information_schema.partitions 
+WHERE table_name = 'ineu_course1';
